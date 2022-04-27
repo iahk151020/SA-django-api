@@ -51,3 +51,9 @@ def handleGetAllElectronicsItems(request):
     limit = request.GET.get('limit')
     res = getAllElectronicsItems(int(page), int(limit))
     return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetProductItemByName(request): 
+    name = request.GET.get('name')
+    res = getProductItemByName(name)
+    return JsonResponse(res, safe=False)

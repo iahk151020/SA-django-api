@@ -13,6 +13,7 @@ urlpatterns = [
     path('products/clothes', handleGetAllClothesItems),
     path('products/mobiles', handleGetAllMobileItems),
     path('products/electronics', handleGetAllElectronicsItems),
+    path('products-by-name', handleGetProductItemByName),
     path('image/book/<id>', bookImageAPI.as_view()),
     path('image/laptop/<id>', laptopImageAPI.as_view()),
     path('image/clothes/<id>', clothesImageAPI.as_view()),

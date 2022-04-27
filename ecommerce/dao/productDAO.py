@@ -1,4 +1,5 @@
 from ..models import * 
+import re
 
 def getAllProductItems(page, limit):
     
@@ -264,3 +265,74 @@ def  getAllElectronicsItems(page, limit):
     }
 
     return res
+
+def getProductItemByName(name): 
+    
+    lowerCaseName = name.casefold()
+    keywords = re.split(r'\W+', lowerCaseName)
+    regex = ''
+
+    for keyword in keywords:
+        regex += '[' + keyword[0] + '|' + keyword[0].upper() + ']' + keyword[1:] + '\W+'
+    regex = regex[0:-3]
+
+    itemBooks = ItemBook.objects.filter(bookId__name__iregex=r''+regex)
+    itemLaptops = ItemLaptop.objects.filter(laptopId__name__regex=r''+regex)
+    itemClothes = ItemClothes.objects.filter(clothesId__name__regex=r''+regex)
+    itemMobiles = ItemMobile.objects.filter(mobileId__name__regex=r''+regex)
+    itemElectronics = ItemElectronics.objects.filter(electronicsId__name__regex=r''+regex)
+    
+    payloads = []
+    for itemBook in itemBooks: 
+        book = itemBook.bookId
+        payloads.append({
+            'id': itemBook.id,
+            'type': 'book',
+            'name': book.name,
+            'price': itemBook.price,
+            'image': 'localhost:8000/api/v1/image/book/' + str(book.id),
+        })
+    
+    for itemLaptop in itemLaptops:
+        laptop = itemLaptop.laptopId
+        payloads.append({
+            'id': itemLaptop.id,
+            'type': 'laptop',
+            'name': laptop.name,
+            'price': itemLaptop.price,
+            'image': 'localhost:8000/api/v1/image/laptop/' + str(laptop.id),
+        })
+    
+    for itemClothes in itemClothes:
+        clothes = itemClothes.clothesId
+        payloads.append({
+            'id': itemClothes.id,
+            'type': 'clothes',
+            'name': clothes.name,
+            'price': itemClothes.price,
+            'image': 'localhost:8000/api/v1/image/clothes/' + str(clothes.id),
+        })
+    
+    for itemMobile in itemMobiles:
+        mobile = itemMobile.mobileId
+        payloads.append({
+            'id': itemMobile.id,
+            'type': 'mobile',
+            'name': mobile.name,
+            'price': itemMobile.price,
+            'image': 'localhost:8000/api/v1/image/mobile/' + str(mobile.id),
+        })
+    
+    for itemElectronics in itemElectronics:
+        electronics = itemElectronics.electronicsId
+        payloads.append({
+            'id': itemElectronics.id,
+            'type': 'electronics',
+            'name': electronics.name,
+            'price': itemElectronics.price,
+            'image': 'localhost:8000/api/v1/image/electronics/' + str(electronics.id),
+        })
+
+    return {
+        'payloads': payloads,
+    }
