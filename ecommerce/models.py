@@ -1,3 +1,5 @@
+from email.mime import image
+from email.policy import default
 from unicodedata import name
 from django.db import models
 
@@ -78,11 +80,14 @@ class Book(models.Model):
     id = models.AutoField(primary_key=True)
     page = models.IntegerField()
     impPrice = models.FloatField()
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/book/', default='images/book/default.jpg')
     name = models.CharField(max_length=200)
     author = models.ManyToManyField('Author')
     publisher = models.ManyToManyField('Publisher')
     category = models.ManyToManyField('Category')
+
+    def __str__(self): 
+        return self.name
 
 class Laptop(models.Model): 
     id = models.AutoField(primary_key=True)
@@ -90,30 +95,39 @@ class Laptop(models.Model):
     ram = models.CharField(max_length=200)
     screen = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/laptop/', default='images/laptop/default.jpg')
     impPrice = models.FloatField()
     producerId = models.ForeignKey('Producer', on_delete=models.CASCADE)
     type = models.ManyToManyField('Type')
 
+    def __str__(self): 
+        return self.name
+
 class Clothes(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/clothes/', default='images/clothes/default.jpg')
     impPrice = models.FloatField()
     style = models.ManyToManyField('Style')
     manufactureId = models.ForeignKey('Manufacture', on_delete=models.PROTECT)
 
+    def __str__(self): 
+        return self.name
 class Mobile(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     screen = models.CharField(max_length=200)
     impPrice = models.FloatField()
+    image = models.ImageField(upload_to='images/mobile/', default='images/mobile/default.jpg')
     os = models.CharField(max_length=200)
     BrandCompanyId = models.ForeignKey('BrandCompany', on_delete=models.CASCADE)
     mobileType = models.ManyToManyField('MobileType')
 
+    def __str__(self): 
+        return self.name
 class Electronics(models.Model): 
     id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to='images/electronics/', default='images/electronics/default.jpg')
     name = models.CharField(max_length=200)
     powerConsume = models.FloatField()
     impPrice = models.FloatField()
@@ -121,6 +135,8 @@ class Electronics(models.Model):
     electroProducerId = models.ForeignKey('ElectroProducer', on_delete=models.CASCADE)
     kind = models.ManyToManyField('Kind')
 
+    def __str__(self): 
+        return self.name
 class ItemBook(Item): 
     edition = models.IntegerField()
     bookId = models.ForeignKey('Book', on_delete=models.CASCADE)
@@ -151,6 +167,9 @@ class Author(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dob = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
     
 
 class Publisher(models.Model):
@@ -159,9 +178,16 @@ class Publisher(models.Model):
     address = models.CharField(max_length=200)
     foundationYear = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
 class Producer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -169,28 +195,51 @@ class Producer(models.Model):
     foundationYear = models.IntegerField()
     address = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 class Type(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
+
 class Style(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
 
 class Manufacture(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     foundationYear = models.IntegerField()
     address = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
 class BrandCompany(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     foundationYear = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
+
 class MobileType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
 
 class ElectroProducer(models.Model): 
     id = models.AutoField(primary_key=True)
@@ -198,6 +247,13 @@ class ElectroProducer(models.Model):
     foundationYear = models.IntegerField()
     address = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
+
 class Kind(models.Model): 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name

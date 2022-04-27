@@ -2,10 +2,15 @@ from django.urls import path
 from . import views
 from .controller.accountController import *
 from .controller.bookController import *
-from .controller.imageController import ImageAPIView
+from .controller.imageController import *
+from .controller.productController import *
 
 urlpatterns = [
-    path('account/', accountController, name='account'),
-    path('book/', bookController, name='book'),
-    path('image/<id>', ImageAPIView.as_view()),
+    path('login', login),
+    path('products', handleGetAllProducts),
+    path('image/book/<id>', bookImageAPI.as_view()),
+    path('image/laptop/<id>', laptopImageAPI.as_view()),
+    path('image/clothes/<id>', clothesImageAPI.as_view()),
+    path('image/mobile/<id>', mobileImageAPI.as_view()),
+    path('image/electronics/<id>', electronicsImageAPI.as_view()),
 ]
