@@ -7,7 +7,7 @@ from .controller.productController import *
 
 urlpatterns = [
     path('login', login),
-    path('products', handleGetAllProducts),
+    path('products', handleGetAllProductItems),
     path('image/book/<id>', bookImageAPI.as_view()),
     path('image/laptop/<id>', laptopImageAPI.as_view()),
     path('image/clothes/<id>', clothesImageAPI.as_view()),

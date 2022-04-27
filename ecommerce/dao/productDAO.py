@@ -1,6 +1,6 @@
 from ..models import * 
 
-def getAllProducts(page, limit):
+def getAllProductItems(page, limit):
     
     bookCounts = ItemBook.objects.all().count()
     laptopCounts = ItemLaptop.objects.all().count()
@@ -89,3 +89,5 @@ def getAllProducts(page, limit):
     }
 
     return res
+
+

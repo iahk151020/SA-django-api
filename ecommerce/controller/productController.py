@@ -5,9 +5,9 @@ from rest_framework.parsers import JSONParser
 from ..dao.productDAO import *
 
 @api_view(['GET'])
-def handleGetAllProducts(request):
+def handleGetAllProductItems(request):
     
     page = request.GET.get('page')
     limit = request.GET.get('limit')
-    res = getAllProducts(int(page), int(limit))
+    res = getAllProductItems(int(page), int(limit))
     return JsonResponse(res, safe=False)
