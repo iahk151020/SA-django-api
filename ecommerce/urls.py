@@ -8,6 +8,11 @@ from .controller.productController import *
 urlpatterns = [
     path('login', login),
     path('products', handleGetAllProductItems),
+    path('products/books', handleGetAllBookItems),
+    path('products/laptops', handleGetAllLaptopItems),
+    path('products/clothes', handleGetAllClothesItems),
+    path('products/mobiles', handleGetAllMobileItems),
+    path('products/electronics', handleGetAllElectronicsItems),
     path('image/book/<id>', bookImageAPI.as_view()),
     path('image/laptop/<id>', laptopImageAPI.as_view()),
     path('image/clothes/<id>', clothesImageAPI.as_view()),

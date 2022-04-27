@@ -90,4 +90,177 @@ def getAllProductItems(page, limit):
 
     return res
 
+def getAllBookItems(page, limit):
 
+    skip = (page -1) * limit
+    counts = ItemBook.objects.all().count()
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    data = ItemBook.objects.all()[skip: skip+limit]
+    payloads = []
+    for itemBook in data:
+        book = itemBook.bookId
+        payloads.append({
+            'id': itemBook.id,
+            'type': 'book',
+            'name': book.name,
+            'price': itemBook.price,
+            'image': 'localhost:8000/api/v1/image/book/' + str(book.id),
+        })
+    
+    res = { 
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+
+    return res
+
+def getAllLaptopItems(page, limit):
+    
+    skip = (page -1) * limit
+    counts = ItemLaptop.objects.all().count()
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    data = ItemLaptop.objects.all()[skip: skip+limit]
+    payloads = []
+    for itemLaptop in data:
+        laptop = itemLaptop.laptopId
+        payloads.append({
+            'id': itemLaptop.id,
+            'type': 'laptop',
+            'name': laptop.name,
+            'price': itemLaptop.price,
+            'image': 'localhost:8000/api/v1/image/laptop/' + str(laptop.id),
+        })
+    
+    res = { 
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+
+    return res
+
+def getAllClothesItems(page, limit):
+    
+    skip = (page -1) * limit
+    counts = ItemClothes.objects.all().count()
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    data = ItemClothes.objects.all()[skip: skip+limit]
+    payloads = []
+    for itemClothes in data:
+        clothes = itemClothes.clothesId
+        payloads.append({
+            'id': itemClothes.id,
+            'type': 'clothes',
+            'name': clothes.name,
+            'price': itemClothes.price,
+            'image': 'localhost:8000/api/v1/image/clothes/' + str(clothes.id),
+        })
+    
+    res = { 
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+
+    return res
+
+def getAllMobileItems(page, limit):
+    
+    skip = (page -1) * limit
+    counts = ItemMobile.objects.all().count()
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    data = ItemMobile.objects.all()[skip: skip+limit]
+    payloads = []
+    for itemMobile in data:
+        mobile = itemMobile.mobileId
+        payloads.append({
+            'id': itemMobile.id,
+            'type': 'mobile',
+            'name': mobile.name,
+            'price': itemMobile.price,
+            'image': 'localhost:8000/api/v1/image/mobile/' + str(mobile.id),
+        })
+    
+    res = { 
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+
+    return res
+
+def  getAllElectronicsItems(page, limit):
+    
+    skip = (page -1) * limit
+    counts = ItemElectronics.objects.all().count()
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    data = ItemElectronics.objects.all()[skip: skip+limit]
+    payloads = []
+    for itemElectronics in data:
+        electronics = itemElectronics.electronicsId
+        payloads.append({
+            'id': itemElectronics.id,
+            'type': 'electronics',
+            'name': electronics.name,
+            'price': itemElectronics.price,
+            'image': 'localhost:8000/api/v1/image/electronics/' + str(electronics.id),
+        })
+    
+    res = { 
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+
+    return res
