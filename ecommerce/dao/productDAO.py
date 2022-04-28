@@ -336,3 +336,189 @@ def getProductItemByName(name):
     return {
         'payloads': payloads,
     }
+
+def getLaptopBrands():
+    brands = Producer.objects.all()
+    payloads = []
+
+    for brand in brands:
+        payloads.append({
+            'id': brand.id,
+            'name': brand.name,
+        })
+
+    return {
+        'payloads': payloads,
+    } 
+
+def getMobileBrands(): 
+    brands = BrandCompany.objects.all()
+    payloads = []
+
+    for brand in brands:
+        payloads.append({
+            'id': brand.id,
+            'name': brand.name,
+        })
+
+    return {
+        'payloads': payloads,
+    }
+
+def getClothesBrands(): 
+    brands = Manufacture.objects.all()
+    payloads = []
+
+    for brand in brands:
+        payloads.append({
+            'id': brand.id,
+            'name': brand.name,
+        })
+    
+    return {
+        'payloads': payloads,
+    }
+
+def getElectronicsBrands():
+    brands = ElectroProducer.objects.all()
+    payloads = []
+
+    for brand in brands:
+        payloads.append({
+            'id': brand.id,
+            'name': brand.name,
+        })
+    
+    return {
+        'payloads': payloads,
+    }
+
+def getItemDetails(id, type):
+    res = {}
+
+    if (type == 'book'):
+        try:
+            item = ItemBook.objects.get(id=id)    
+        except ItemBook.DoesNotExist: 
+            return None
+
+        book = item.bookId
+        author = book.author.all()[0]
+        publisher = book.publisher.all()[0]
+
+        res = {
+            'id': item.id,
+            'type': type,
+            'name': book.name,
+            'price': item.price,
+            'image': 'localhost:8000/api/v1/image/book/' + str(book.id),
+            'edition': item.edition,
+            'stock': item.stock,
+            'author':{
+                'name': author.name,
+                'dob': author.dob,
+            },
+            'publisher': publisher.name,
+            
+        }
+    elif (type == 'laptop'):
+        try: 
+            item = ItemLaptop.objects.get(id=id)
+        except ItemLaptop.DoesNotExist: 
+            return None
+
+        laptop = item.laptopId
+        laptop_type = laptop.type.all()[0]
+        producer = laptop.producerId
+
+        res = {
+            'id': item.id,
+            'type': type,
+            'name': laptop.name,
+            'price': item.price,
+            'image': 'localhost:8000/api/v1/image/laptop/' + str(laptop.id),
+            'year_edition': item.yearEdition,
+            'color': item.color,
+            'stock': item.stock,
+            'maintainTime': item.maintainTime,
+            'producer': producer.name,
+            'laptop_type': laptop_type.name,
+            
+        }
+    
+    elif (type == 'clothes'):
+        try:
+            item = ItemClothes.objects.get(id=id)
+        except ItemClothes.DoesNotExist: 
+            return None
+
+        clothes = item.clothesId
+        style = clothes.style.all()[0]
+        manufacture = clothes.manufactureId
+
+        res = {
+            'id': item.id,
+            'type': type,
+            'name': clothes.name,
+            'price': item.price,
+            'image': 'localhost:8000/api/v1/image/clothes/' + str(clothes.id),
+            'color': item.color,
+            'stock': item.stock,
+            'size': item.size,
+            'style': style.name,
+            'manufacture': manufacture.name,
+            
+        }
+
+    elif (type == 'mobile'):
+        try:
+            item = ItemMobile.objects.get(id=id)
+        except: 
+            return None
+            
+        mobile = item.mobileId
+        brand = mobile.BrandCompanyId
+        mobile_type = mobile.mobileType.all()[0]
+
+        res = {
+            'id': item.id,
+            'type': type,
+            'name': mobile.name,
+            'price': item.price,
+            'image': 'localhost:8000/api/v1/image/mobile/' + str(mobile.id),
+            'color': item.color,
+            'stock': item.stock,
+            'maintain_time': item.maintainTime,
+            'memory_size': item.memorySize,
+            'screen': mobile.screen,
+            'os': mobile.os,
+            'brand': brand.name,
+            'mobile_type': mobile_type.name,
+        }
+
+    elif (type == 'electronics'):
+        try:
+            item = ItemElectronics.objects.get(id=id)
+        except ItemElectronics.DoesNotExist: 
+            return None
+            
+        electronics = item.electronicsId
+        producer = electronics.electroProducerId
+        kind = electronics.kind.all()[0]
+
+        res = {
+            'id': item.id,
+            'type': type,
+            'name': electronics.name,
+            'price': item.price,
+            'image': 'localhost:8000/api/v1/image/electronics/' + str(electronics.id),
+            'stock': item.stock,
+            'maintain_time': item.maintainTime,
+            'power_consume': electronics.powerConsume,
+            'producer': producer.name,
+            'kind': kind.name
+        }
+
+
+    return res
+

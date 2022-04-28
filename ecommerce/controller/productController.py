@@ -57,3 +57,33 @@ def handleGetProductItemByName(request):
     name = request.GET.get('name')
     res = getProductItemByName(name)
     return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetLaptopBrands(request):
+    res = getLaptopBrands()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetMobileBrands():
+    res = getMobileBrands()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetElectronicsBrands():
+    res = getElectronicsBrands()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetClothesBrands():
+    res = getClothesBrands()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetItemDetails(request): 
+    id = request.GET.get('id')
+    type = request.GET.get('type')
+    res = getItemDetails(id, type)
+    if res is not None: 
+        return JsonResponse(res, safe=False)
+    else: 
+        return Response(status=404)
