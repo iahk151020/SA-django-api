@@ -51,13 +51,13 @@ class CartItem(models.Model):
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     totalPrice = models.FloatField()
-    createdTime = models.IntegerField()
+    createdTime = models.CharField(max_length=100)
     cartId = models.ForeignKey('Cart', on_delete=models.CASCADE)
 
 class Payment(models.Model): 
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=100)
-    status = models.BinaryField()
+    paid = models.BooleanField()
     orderId = models.ForeignKey('Order', on_delete=models.CASCADE)
 
 class Shipment(models.Model):

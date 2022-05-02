@@ -10,7 +10,16 @@ def addToCart(customerId, quantity, itemId):
         cartItem.save()
     except CartItem.DoesNotExist:
         CartItem.objects.create(cartId=cart, itemId=item, number=quantity)
-    
+
+def updateCartItemQuantity(customerId, itemId, quantity):
+    cart = Cart.objects.get(customerId=customerId)
+    try: 
+        cartItem = CartItem.objects.get(cartId=cart.id, itemId=itemId)
+        cartItem.number = quantity
+        cartItem.save()
+    except CartItem.DoesNotExist:
+        pass
+
 def removeFromCart(customerId, itemId):
     cart = Cart.objects.get(customerId=customerId)
     try: 

@@ -28,3 +28,12 @@ def handleRemoveFromCart(request):
     itemId = data['itemId']
     removeFromCart(customerId, itemId)
     return Response("Successfully removing item from cart", status=200)
+
+@api_view(['POST'])
+def handleUpdateCartItemQuantity(request): 
+    data = request.data
+    customerId = data['customerId']
+    itemId = data['itemId']
+    quantity = data['quantity']
+    updateCartItemQuantity(customerId, itemId, quantity)
+    return Response("Successfully updating cart item quantity", status=200)
