@@ -4,6 +4,7 @@ from .controller.accountController import *
 from .controller.bookController import *
 from .controller.imageController import *
 from .controller.productController import *
+from .controller.checkoutController import *
 
 urlpatterns = [
     path('login', login),
@@ -19,9 +20,13 @@ urlpatterns = [
     path('clothes-brands', handleGetClothesBrands),
     path('electronics-brands', handleGetElectronicsBrands),
     path('item-detail', handleGetItemDetails),
+    path('get-current-cart', handleGetCurrentCart),
+    path('add-to-cart', handleAddToCart),
+    path('remove-from-cart', handleRemoveFromCart),
     path('image/book/<id>', bookImageAPI.as_view()),
     path('image/laptop/<id>', laptopImageAPI.as_view()),
     path('image/clothes/<id>', clothesImageAPI.as_view()),
     path('image/mobile/<id>', mobileImageAPI.as_view()),
     path('image/electronics/<id>', electronicsImageAPI.as_view()),
+    
 ]

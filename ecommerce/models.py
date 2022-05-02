@@ -43,12 +43,11 @@ class Cart(models.Model):
     customerId = models.ForeignKey('Customer', on_delete=models.CASCADE)
 
 class CartItem(models.Model):
-     id = models.AutoField(primary_key=True)
-     number = models.IntegerField()
-     type = models.CharField(max_length=200)
-     itemId = models.ForeignKey('Item', on_delete=models.CASCADE)
-     cartId = models.ForeignKey('Cart', on_delete=models.CASCADE)
-
+    id = models.AutoField(primary_key=True)
+    number = models.IntegerField()
+    itemId = models.ForeignKey('Item', on_delete=models.CASCADE)
+    cartId = models.ForeignKey('Cart', on_delete=models.CASCADE)
+    
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     totalPrice = models.FloatField()
