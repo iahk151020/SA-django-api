@@ -41,11 +41,11 @@ class Cart(models.Model):
     id = models.AutoField(primary_key=True)
     status = models.CharField(max_length=200)
     customerId = models.ForeignKey('Customer', on_delete=models.CASCADE)
-    orderId = models.ForeignKey('Order', on_delete=models.CASCADE)
 
 class CartItem(models.Model):
      id = models.AutoField(primary_key=True)
      number = models.IntegerField()
+     type = models.CharField(max_length=200)
      itemId = models.ForeignKey('Item', on_delete=models.CASCADE)
      cartId = models.ForeignKey('Cart', on_delete=models.CASCADE)
 
