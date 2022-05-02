@@ -64,17 +64,17 @@ def handleGetLaptopBrands(request):
     return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
-def handleGetMobileBrands():
+def handleGetMobileBrands(request):
     res = getMobileBrands()
     return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
-def handleGetElectronicsBrands():
+def handleGetElectronicsBrands(request):
     res = getElectronicsBrands()
     return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
-def handleGetClothesBrands():
+def handleGetClothesBrands(request):
     res = getClothesBrands()
     return JsonResponse(res, safe=False)
 

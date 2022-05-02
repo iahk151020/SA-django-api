@@ -339,8 +339,8 @@ def getProductItemByName(name):
 
 def getLaptopBrands():
     brands = Producer.objects.all()
-    payloads = []
 
+    payloads = []
     for brand in brands:
         payloads.append({
             'id': brand.id,
