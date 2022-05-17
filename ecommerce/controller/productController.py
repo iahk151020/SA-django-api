@@ -59,6 +59,11 @@ def handleGetProductItemByName(request):
     return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
+def handleGetBookCategories(request):
+    res = getBookCategories()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
 def handleGetLaptopBrands(request):
     res = getLaptopBrands()
     return JsonResponse(res, safe=False)
@@ -75,7 +80,7 @@ def handleGetElectronicsBrands(request):
 
 @api_view(['GET'])
 def handleGetClothesBrands(request):
-    res = getClothesBrands()
+    res = getClothesStyles()
     return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
@@ -87,3 +92,18 @@ def handleGetItemDetails(request):
         return JsonResponse(res, safe=False)
     else: 
         return Response(status=404)
+
+@api_view(['GET'])
+def handleGetAllBrands(request):
+    res = getAllBrands()
+    return JsonResponse(res, safe=False)
+
+@api_view(['GET'])
+def handleGetItemsByBrand(request):
+    brand = request.GET.get('brand')
+    type = request.GET.get('type')
+    page = request.GET.get('page')
+    limit = request.GET.get('limit')
+
+    res = getItemsByBrand(type, brand, int(page), int(limit))
+    return JsonResponse(res, safe=False)

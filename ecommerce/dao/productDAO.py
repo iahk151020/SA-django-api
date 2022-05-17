@@ -1,3 +1,4 @@
+from unicodedata import category
 from ..models import * 
 import re
 
@@ -344,12 +345,11 @@ def getLaptopBrands():
     for brand in brands:
         payloads.append({
             'id': brand.id,
+            'type': 'laptop',
             'name': brand.name,
         })
 
-    return {
-        'payloads': payloads,
-    } 
+    return payloads 
 
 def getMobileBrands(): 
     brands = BrandCompany.objects.all()
@@ -358,26 +358,37 @@ def getMobileBrands():
     for brand in brands:
         payloads.append({
             'id': brand.id,
+            'type': 'mobile',
             'name': brand.name,
         })
 
-    return {
-        'payloads': payloads,
-    }
+    return payloads
 
-def getClothesBrands(): 
-    brands = Manufacture.objects.all()
+def getBookCategories():
+    categories = Category.objects.all()
+
+    payloads = []
+    for category in categories:
+        payloads.append({
+            'id': category.id,
+            'type': "book",
+            'name': category.name,
+        })
+
+    return payloads
+
+def getClothesStyles(): 
+    brands = Style.objects.all()
     payloads = []
 
     for brand in brands:
         payloads.append({
             'id': brand.id,
+            'type': 'clothes',
             'name': brand.name,
         })
     
-    return {
-        'payloads': payloads,
-    }
+    return payloads
 
 def getElectronicsBrands():
     brands = ElectroProducer.objects.all()
@@ -386,12 +397,21 @@ def getElectronicsBrands():
     for brand in brands:
         payloads.append({
             'id': brand.id,
+            'type': 'electronics',
             'name': brand.name,
         })
     
-    return {
-        'payloads': payloads,
-    }
+    return payloads
+
+def getAllBrands():
+    result = []
+    result.extend(getLaptopBrands())
+    result.extend(getMobileBrands())
+    result.extend(getBookCategories())
+    result.extend(getClothesStyles())
+    result.extend(getElectronicsBrands())
+
+    return result
 
 def getItemDetails(id, type):
     res = {}
@@ -522,3 +542,91 @@ def getItemDetails(id, type):
 
     return res
 
+def getItemsByBrand(type, brand, page, limit):
+
+    result = []
+
+    if (type == 'book'):
+        items = ItemBook.objects.filter(bookId__category__name = brand)
+        print("ITEMS SIZE: " + str(items.count()))
+        for item in items: 
+            book = item.bookId
+            result.append({
+                'id': item.id,
+                'type': 'book',
+                'name': book.name,
+                'price': item.price,
+                'image': 'localhost:8000/api/v1/image/book/' + str(book.id),
+            })
+    elif (type == 'laptop'):
+        items = ItemLaptop.objects.filter(laptopId__producerId__name = brand)
+        print("ITEMS SIZE: " + str(items.count()))
+        for item in items: 
+            laptop = item.laptopId
+            result.append({
+                'id': item.id,
+                'type': 'laptop',
+                'name': laptop.name,
+                'price': item.price,
+                'image': 'localhost:8000/api/v1/image/laptop/' + str(laptop.id),
+            })
+    elif (type == 'clothes'):
+        items = ItemClothes.objects.filter(clothesId__style__name = brand)
+        print("ITEMS SIZE: " + str(items.count()))
+        for item in items: 
+            clothes = item.clothesId
+            result.append({
+                'id': item.id,
+                'type': 'clothes',
+                'name': clothes.name,
+                'price': item.price,
+                'image': 'localhost:8000/api/v1/image/clothes/' + str(clothes.id),
+            })
+    
+    elif (type == 'mobile'):
+        items = ItemMobile.objects.filter(mobileId__BrandCompanyId__name = brand)
+        print("ITEMS SIZE: " + str(items.count()))
+        for item in items: 
+            mobile = item.mobileId
+            result.append({
+                'id': item.id,
+                'type': 'mobile',
+                'name': mobile.name,
+                'price': item.price,
+                'image': 'localhost:8000/api/v1/image/mobile/' + str(mobile.id),
+            })
+    
+    elif (type == 'electronics'):
+        items = ItemElectronics.objects.filter(electronicsId__electroProducerId__name = brand)
+        print("ITEMS SIZE: " + str(items.count()))
+        for item in items: 
+            electronics = item.electronicsId
+            result.append({
+                'id': item.id,
+                'type': 'electronics',
+                'name': electronics.name,
+                'price': item.price,
+                'image': 'localhost:8000/api/v1/image/electronics/' + str(electronics.id),
+            })
+
+    skip = (page -1) * limit
+    counts = len(result)
+    lastPageCount = counts % limit
+    hasPreviousPage = False
+    hasNextPage = True
+    
+    if (page > 1):
+        hasPreviousPage = True
+    if ((page - 1) * limit + lastPageCount == counts or (page * limit == counts)): 
+        hasNextPage = False
+
+    payloads = result[skip: skip+limit]
+    return {
+        'payloads': payloads,
+        'page': page,
+        'limits': limit,
+        'hasPreviousPage': hasPreviousPage,
+        'hasNextPage': hasNextPage,
+    }
+  
+    

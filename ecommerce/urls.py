@@ -16,6 +16,7 @@ urlpatterns = [
     path('products/mobiles', handleGetAllMobileItems),
     path('products/electronics', handleGetAllElectronicsItems),
     path('products-by-name', handleGetProductItemByName),
+    path('all-brands', handleGetAllBrands),
     path('laptop-brands', handleGetLaptopBrands),
     path('mobile-brands', handleGetMobileBrands),
     path('clothes-brands', handleGetClothesBrands),
@@ -31,4 +32,5 @@ urlpatterns = [
     path('image/clothes/<id>', clothesImageAPI.as_view()),
     path('image/mobile/<id>', mobileImageAPI.as_view()),
     path('image/electronics/<id>', electronicsImageAPI.as_view()),
+    path('products/items-by-brand', handleGetItemsByBrand),
 ]
