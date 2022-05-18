@@ -26,6 +26,7 @@ urlpatterns = [
     path('add-to-cart', handleAddToCart),
     path('update-cart-item-quantity', handleUpdateCartItemQuantity),
     path('remove-from-cart', handleRemoveFromCart),
+    path('click-checkout', handleClickCheckout),
     path('create-order', handleCreateOrder),
     path('image/book/<id>', bookImageAPI.as_view()),
     path('image/laptop/<id>', laptopImageAPI.as_view()),

@@ -7,7 +7,7 @@ from ..dao.productDAO import *
 
 @api_view(['GET'])
 def handleGetCurrentCart(request):
-    customerId = request.GET.get('q')
+    customerId = request.GET.get('customerId')
     print('customer id:', customerId)
     res = getCurrentCart(int(customerId))
     return JsonResponse(res, safe=False)
@@ -18,7 +18,7 @@ def handleAddToCart(request):
     customerId = data['customerId']
     itemId = data['itemId']
     quantity = data['quantity']
-    addToCart(customerId, itemId, quantity)
+    addToCart(customerId, quantity, itemId)
     return Response("Added to cart successfully", status=200)
 
 @api_view(['DELETE'])
@@ -37,3 +37,11 @@ def handleUpdateCartItemQuantity(request):
     quantity = data['quantity']
     updateCartItemQuantity(customerId, itemId, quantity)
     return Response("Successfully updating cart item quantity", status=200)
+
+@api_view(['PUT'])
+def handleClickCheckout(request): 
+    data = request.data
+    customerId = data['customerId']
+    items = data['items']
+    res = clickCheckout(customerId, items)
+    return JsonResponse(res, safe=False)
